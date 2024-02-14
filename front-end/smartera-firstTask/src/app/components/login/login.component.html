@@ -1,0 +1,17 @@
+<div>
+  <form>
+    <h2>Login</h2>
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" required />
+    <label>Password:</label>
+    <input type="password" [(ngModel)]="password" name="password" required />
+    <label>User Type:</label>
+    <select [(ngModel)]="userType" name="userType" required>
+      <option value="Admin">Admin</option>
+      <option value="Customer">Customer</option>
+      <option value="Guest">Guest</option>
+    </select>
+    <button (click)="login()">Login</button>
+  </form>
+</div>
+ 

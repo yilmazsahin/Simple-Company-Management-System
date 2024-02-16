@@ -5,6 +5,7 @@ import com.smartera.firsttask.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.config.RepositoryConfigurationSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+
 
 public class CustomerController {
     private final CustomerService customerService;
@@ -37,7 +39,7 @@ public class CustomerController {
         if (customer != null) {
             return ResponseEntity.ok(customer);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -45,6 +47,11 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
+    }
+    @GetMapping("/customers")
+    public String listCustomers(Model model){
+        model.addAttribute("customers",customerService.getAllCustomers());
+        return "customers";
     }
 
     @PutMapping("/updateCustomerById/{id}")

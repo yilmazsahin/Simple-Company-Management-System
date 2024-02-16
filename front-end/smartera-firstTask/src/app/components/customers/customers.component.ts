@@ -1,26 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
+import { CustomersService } from '../../services/customers.service';
+import { ActivatedRoute } from '@angular/router';
+import { Customer } from '../../common/customer';
 
 @Component({
   selector: 'app-customers',
-
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.css',
 })
 export class CustomersComponent implements OnInit {
-  customers: any[] = [];
-  constructor(private apiService: ApiService) {}
+  customers: Customer[] = [];
+  constructor(
+    private customerService: CustomersService,
+    private route: ActivatedRoute
+  ) {}
   ngOnInit(): void {
-    this.getCustomers();
+    this.route.paramMap.subscribe(() => {
+      this.customerList();
+    });
   }
-  getCustomers() {
-    this.apiService.getCustomers().subscribe(
-      (data: any) => {
-        this.customers = data as any[];
-      },
-      (error) => {
-        console.error('An error occured: ', error);
-      }
-    );
+  customerList() {
+    this.customerService.getCustomers().subscribe((data) => {
+      console.log('Customers: ' + JSON.stringify(data));
+      this.customers = data;
+    });
   }
 }

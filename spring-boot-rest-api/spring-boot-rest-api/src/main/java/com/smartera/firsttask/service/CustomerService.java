@@ -50,15 +50,6 @@ public class CustomerService {
         return false;
     }
 
-    public void updateAuthorizationLevel(Long customerId, String authorizationLevel) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
-        if (customerId != null) {
-            String currentAuthorizationLevel = customer.getAuthorizationLevel();
-            if ("admin".equals(currentAuthorizationLevel)) {
-                customer.setAuthorizationLevel(authorizationLevel);
-                customerRepository.save(customer);
-            }
 
-        }
-    }
+
 }

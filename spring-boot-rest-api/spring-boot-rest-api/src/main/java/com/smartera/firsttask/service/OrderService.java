@@ -31,11 +31,11 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order getOrderById( Long id) {
+    public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public Order updateOrder(Long customerId, Long orderId,  Order updatedOrder) {
+    public Order updateOrder(Long customerId, Long orderId, Order updatedOrder) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null && customer != null) {
@@ -61,21 +61,20 @@ public class OrderService {
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
         if (customer != null) {
-            String authorizationLevel = customer.getAuthorizationLevel();
-            if ("admin".equals(authorizationLevel) || "customer".equals(authorizationLevel)) {
 
-                order.setCustomer(customer);
-                order.setOrderTrackingNumber(UUID.randomUUID().toString());
-                return orderRepository.save(order);
-            }
+
+            order.setCustomer(customer);
+            order.setOrderTrackingNumber(UUID.randomUUID().toString());
+            return orderRepository.save(order);
         }
+
         return null;
     }
 
     public boolean createOrder(Long customerId, String authorizationLevel) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if (customer != null) {
-            if ("customer".equals(authorizationLevel) || "admin".equals(authorizationLevel)) {
+            if ("CUSTOMER".equals(authorizationLevel) || "ADMIN".equals(authorizationLevel)) {
                 return true;
             }
         }

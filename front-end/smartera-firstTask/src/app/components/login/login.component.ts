@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,24 +12,32 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
-  userType: string = '';
-  constructor(private authService: AuthService, private router: Router) {}
+  authorizationLevel: string = '';
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
   ngOnInit(): void {}
   login() {
+    console.log('Login metoduna giriş yapti');
     this.authService
-      .login(this.email, this.password)
+      .login(this.email, this.password, this.authorizationLevel)
       .subscribe((response: any) => {
-        if (response && response.success) {
+        if (true) {
           this.handleSuccessfulLogin();
+          console.log('Giriş başarılı');
         } else {
+          console.log('Giriş BAŞARIZ');
           // Giriş başarısız, hata işlemleri burada yapılabilir
         }
       });
     console.log(
-      `Login attempt with email: ${this.email}, password: ${this.password}, user type: ${this.userType}`
+      `Login attempt with email: ${this.email}, password: ${this.password}, authorizationLevel : ${this.authorizationLevel}`
     );
   }
   handleSuccessfulLogin() {
-    this.router.navigate(['/customer']);
+    this.router.navigate(['/customers']);
+    console.log('Bu sayfa müşteriler');
   }
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from './services/api.service';
+import { CustomersService } from './services/customers.service';
+import { Customer } from './common/customer';
+import { Order } from './common/order';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +11,19 @@ import { ApiService } from './services/api.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  customers: any[] = [];
-  orders: any[] = [];
+  customers: Customer[] = [];
+  orders: Order[] = [];
   title = 'smartera-firstTask';
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private customerService: CustomersService
+  ) {}
   ngOnInit(): void {
     this.getCustomers();
     this.getOrders();
   }
   getCustomers() {
-    this.apiService.getCustomers().subscribe((data: any) => {
+    this.customerService.getCustomers().subscribe((data: any) => {
       this.customers = data;
     });
   }

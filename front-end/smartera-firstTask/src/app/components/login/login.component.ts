@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient
   ) {}
   ngOnInit(): void {}
+
   login() {
     console.log('Login metoduna giriş yapti');
     this.authService
@@ -31,13 +32,16 @@ export class LoginComponent implements OnInit {
           console.log('Giriş BAŞARIZ');
           // Giriş başarısız, hata işlemleri burada yapılabilir
         }
+        return true;
       });
     console.log(
       `Login attempt with email: ${this.email}, password: ${this.password}, authorizationLevel : ${this.authorizationLevel}`
     );
   }
+
   handleSuccessfulLogin() {
-    this.router.navigate(['/customers']);
-    console.log('Bu sayfa müşteriler');
+    console.log(this.router)
+    let result = this.router.navigate(['customers']);
+    console.log(result);
   }
 }
